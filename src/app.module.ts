@@ -1,0 +1,36 @@
+/* eslint-disable prettier/prettier */
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UserModule } from './user/user.module';
+import { InternModule } from './intern/intern.module';
+import { PlanModule } from './plan/plan.module';
+import { DetailModule } from './internDetail/detail.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from './user/user.entity';
+import { PlanEntity } from './plan/plan.entity';
+import { InternEntity } from './intern/intern.entity';
+import { DetailEntity } from './internDetail/detail.entity';
+
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: '12345',
+      database: 'db_intern_management',
+      entities: [UserEntity, PlanEntity, InternEntity, DetailEntity],
+      synchronize: true,
+      logging: true
+    }),
+    UserModule, 
+    InternModule, 
+    PlanModule, 
+    DetailModule
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
