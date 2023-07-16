@@ -23,30 +23,35 @@ export class DetailService {
     return this.detailRepository.find({ relations: ['intern', 'plan'] });
   }
 
-  findOne(id: number) {
+  findOneIntern(id: number): Promise<DetailEntity[]>{
     return this.detailRepository
       .createQueryBuilder('detail')
       .leftJoinAndSelect('detail.intern', 'intern')
       .leftJoinAndSelect('detail.plan', 'plan')
-      .where('detail.id = :id', { id })
-      .getOne();
+      .where('detail.intern.id = :id', { id })
+      .getMany();
   }
 
   async create(createdDetailDto: CreateDetailDto): Promise<DetailEntity> {
-    const intern = await this.internRepository.findOne({
-      where: { name: String(createdDetailDto.intern) },
-    });
-    const plan = await this.planRepository.findOne({
-      where: { title: String(createdDetailDto.plan) },
-    });
+    
+    if(createdDetailDto!==null){
+      const intern = await this.internRepository.findOne({
+        where: { name: String(createdDetailDto.intern) },
+      });
+      
+      const plan = await this.planRepository.findOne({
+        where: { title: String(createdDetailDto.plan) },
+      });
+      
 
-    const detail: DetailEntity = new DetailEntity();
-    detail.intern = intern.id;
-    detail.plan = plan.id;
-    detail.startDate = createdDetailDto.startDate;
-    detail.endDate = createdDetailDto.endDate;
-    detail.done = createdDetailDto.done;
-    return this.detailRepository.save(detail);
+      const detail: DetailEntity = new DetailEntity();
+      detail.intern = intern.id;
+      detail.plan = plan.id;
+      detail.startDate = createdDetailDto.startDate;
+      detail.endDate = createdDetailDto.endDate;
+      detail.done = createdDetailDto.done;
+      return this.detailRepository.save(detail);
+    }
   }
 
   async update(id: number, updateDetailDto: UpdateDetailDto) {

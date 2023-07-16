@@ -13,8 +13,8 @@ export class DetailController{
     }
 
     @Get(":id")
-    getDetailById(@Param("id") id:string):Promise<DetailEntity>{
-        return this.detailService.findOne(+id)
+    getDetailById(@Param("id") id:string):Promise<DetailEntity[]>{
+        return this.detailService.findOneIntern(+id)
     }
 
     @Post()
