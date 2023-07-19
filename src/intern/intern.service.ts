@@ -1,14 +1,17 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
 import { InternEntity } from "./intern.entity";
-import { Repository } from 'typeorm';
+import { Repository, Connection } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateInternDto } from "./create-intern.dto";
 import { UpdateInternDto } from "./update-intern.dto";
 
 @Injectable()
 export class InternService{
-    constructor(@InjectRepository(InternEntity) private readonly internRepository: Repository<InternEntity>) {}
+    constructor(
+        @InjectRepository(InternEntity) private readonly internRepository: Repository<InternEntity>,
+        private connection:Connection
+    ) {}
 
     create(createInternDto: CreateInternDto): Promise<InternEntity>{
         const intern: InternEntity = new InternEntity()
@@ -18,11 +21,19 @@ export class InternService{
         intern.department = createInternDto.department;
         intern.field = createInternDto.field
         intern.completed = createInternDto.completed
+        intern.img = createInternDto.img
+        intern.cv = createInternDto.cv
         return this.internRepository.save(intern)
     }
 
     findAll():Promise<InternEntity[]>{
-        return this.internRepository.find()
+        const result = this.connection.query('SELECT * FROM intern_entity')
+        return result;
+    }
+
+    findAllForDetail():Promise<InternEntity[]>{
+        const result = this.connection.query('SELECT id FROM intern_entity')
+        return result;
     }
 
     findOne(id: number){
@@ -37,6 +48,8 @@ export class InternService{
         intern.department = updateInternDto.department;
         intern.field = updateInternDto.field
         intern.completed = updateInternDto.completed
+        intern.img = updateInternDto.img
+        intern.cv = updateInternDto.cv
         intern.id = id
         return this.internRepository.save(intern)
     }

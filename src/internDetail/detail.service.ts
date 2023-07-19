@@ -32,20 +32,15 @@ export class DetailService {
       .getMany();
   }
 
-  async create(createdDetailDto: CreateDetailDto): Promise<DetailEntity> {
+  async createPlanDetail(createdDetailDto: CreateDetailDto): Promise<DetailEntity> {
     
     if(createdDetailDto!==null){
-      const intern = await this.internRepository.findOne({
-        where: { name: String(createdDetailDto.intern) },
-      });
-      
       const plan = await this.planRepository.findOne({
         where: { title: String(createdDetailDto.plan) },
+        order: { id: 'DESC' }
       });
-      
-
       const detail: DetailEntity = new DetailEntity();
-      detail.intern = intern.id;
+      detail.intern = createdDetailDto.intern;
       detail.plan = plan.id;
       detail.startDate = createdDetailDto.startDate;
       detail.endDate = createdDetailDto.endDate;
@@ -54,17 +49,28 @@ export class DetailService {
     }
   }
 
-  async update(id: number, updateDetailDto: UpdateDetailDto) {
-    const intern = await this.internRepository.findOne({
-      where: { name: String(updateDetailDto.intern) },
-    });
-    const plan = await this.planRepository.findOne({
-      where: { title: String(updateDetailDto.plan) },
-    });
+  async createInternDetail(createdDetailDto: CreateDetailDto): Promise<DetailEntity> {
+    
+    if(createdDetailDto!==null){
+      const intern = await this.internRepository.findOne({
+        where: { name: String(createdDetailDto.intern) },
+        order: { id: 'DESC' }
+      });
+      
+      const detail: DetailEntity = new DetailEntity();
+      detail.intern = intern.id;
+      detail.plan = createdDetailDto.plan;
+      detail.startDate = createdDetailDto.startDate;
+      detail.endDate = createdDetailDto.endDate;
+      detail.done = createdDetailDto.done;
+      return this.detailRepository.save(detail);
+    }
+  }
 
+  async update(id: number, updateDetailDto: UpdateDetailDto) {
     const detail: DetailEntity = new DetailEntity();
-    detail.intern = intern.id;
-    detail.plan = plan.id;
+    detail.intern = updateDetailDto.intern;
+    detail.plan = updateDetailDto.plan;
     detail.startDate = updateDetailDto.startDate;
     detail.endDate = updateDetailDto.endDate;
     detail.done = updateDetailDto.done;

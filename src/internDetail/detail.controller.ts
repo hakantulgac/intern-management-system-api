@@ -17,9 +17,14 @@ export class DetailController{
         return this.detailService.findOneIntern(+id)
     }
 
-    @Post()
-    createDetail(@Body() detail:DetailEntity){
-        return this.detailService.create(detail)
+    @Post("intern")
+    createInternDetail(@Body() detail:DetailEntity){
+        return this.detailService.createInternDetail(detail)
+    }
+
+    @Post("plan")
+    createPlanDetail(@Body() detail:DetailEntity){
+        return this.detailService.createPlanDetail(detail)
     }
 
     @Put(":id")

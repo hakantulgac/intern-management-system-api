@@ -24,6 +24,11 @@ export class PlanService{
         return result
     }
 
+    findAllForIntern():Promise<PlanEntity[]>{
+        const result = this.connection.query("select id from plan_entity")
+        return result
+    }
+
     findOne(id: number){
         return this.planRepository.findOneById(id)
     }

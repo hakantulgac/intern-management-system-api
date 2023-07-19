@@ -12,6 +12,11 @@ export class InternController{
         return this.internService.findAll();
     }
 
+    @Get("plan")
+    getAllForDetail():Promise<InternEntity[]>{
+        return this.internService.findAllForDetail();
+    }
+
     @Get(':id')
     getInternById(@Param("id") id:string):Promise<InternEntity>{
         return this.internService.findOne(+id)

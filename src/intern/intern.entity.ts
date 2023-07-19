@@ -23,4 +23,10 @@ export class InternEntity{
 
   @Column()
   completed: number;
+
+  @Column({ type: 'bytea', nullable: true })
+  img: Buffer;
+
+  @Column({ type: 'bytea', nullable: true })
+  cv: Buffer;
 }

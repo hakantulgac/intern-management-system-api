@@ -12,6 +12,11 @@ export class PlanController{
         return this.planService.findAll();
     }
 
+    @Get("intern")
+    getAllForIntern():Promise<PlanEntity[]>{
+        return this.planService.findAllForIntern();
+    }
+
     @Post()
     createUser(@Body() user:PlanEntity){
         this.planService.create(user);
