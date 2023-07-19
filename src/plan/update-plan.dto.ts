@@ -5,6 +5,5 @@ import { CreatePlanDto } from './create-plan.dto';
 export class UpdatePlanDto extends PartialType(CreatePlanDto){
     title:string
     description:string
-    startDate:string
-    endDate:string
+    days:number
 }

@@ -13,8 +13,5 @@ export class PlanEntity{
   description: string;
 
   @Column()
-  startDate: string;
-
-  @Column()
-  endDate: string;
+  days:number
 }

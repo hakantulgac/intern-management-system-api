@@ -14,8 +14,7 @@ export class PlanService{
         const plan: PlanEntity = new PlanEntity()
         plan.title = createPlanDto.title;
         plan.description = createPlanDto.description;
-        plan.startDate = createPlanDto.startDate;
-        plan.endDate = createPlanDto.endDate;
+        plan.days = createPlanDto.days;
         return this.planRepository.save(plan)
     }
 
@@ -37,8 +36,7 @@ export class PlanService{
         const plan : PlanEntity = new PlanEntity();
         plan.title = updatePlanDto.title;
         plan.description = updatePlanDto.description;
-        plan.startDate = updatePlanDto.startDate;
-        plan.endDate = updatePlanDto.endDate;
+        plan.days = updatePlanDto.days;
         plan.id = id
         return this.planRepository.save(plan)
     }
