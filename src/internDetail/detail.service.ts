@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Connection } from 'typeorm';
 import { DetailEntity } from './detail.entity';
 import { CreateDetailDto } from './create-detail.dto';
 import { UpdateDetailDto } from './update-detail.dto';
@@ -17,6 +17,7 @@ export class DetailService {
     private readonly internRepository: Repository<InternEntity>,
     @InjectRepository(PlanEntity)
     private readonly planRepository: Repository<PlanEntity>,
+    private connection:Connection
   ) {}
 
   findAll(): Promise<DetailEntity[]> {
@@ -79,8 +80,7 @@ export class DetailService {
   }
 
   remove(id: number) {
-    const deleted = this.detailRepository.findOneById(id);
-    this.detailRepository.delete(id);
+    const deleted = this.connection.query('delete from detail_entity where "internId" = '+id+'delete from intern_entity where "id" = '+id)
     return deleted;
   }
 }

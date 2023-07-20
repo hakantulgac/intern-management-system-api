@@ -6,6 +6,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateInternDto } from "./create-intern.dto";
 import { UpdateInternDto } from "./update-intern.dto";
 
+interface typeValue{
+    value:number
+}
+
 @Injectable()
 export class InternService{
     constructor(
@@ -38,6 +42,11 @@ export class InternService{
 
     findOne(id: number){
         return this.internRepository.findOneById(id)
+    }
+
+    updateCompleted(id:number , completed:typeValue){
+        const result:number = completed.value
+        this.connection.query("update intern_entity set completed = "+result+" where id = "+id)
     }
 
     update(id:number , updateInternDto: UpdateInternDto){
