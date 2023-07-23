@@ -42,6 +42,7 @@ export class PlanService{
     }
 
     remove(id: number){
+        this.connection.query('delete from detail_entity where "planId" = '+id)
         const deleted = this.planRepository.findOneById(id)
         this.planRepository.delete(id) 
         return deleted

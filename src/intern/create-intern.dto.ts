@@ -7,6 +7,6 @@ export class CreateInternDto{
     department:string
     field:string
     completed:number
-    img: Buffer;
-    cv: Buffer;
-}
+    image: string;
+    resume: string;
+}  

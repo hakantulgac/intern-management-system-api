@@ -21,12 +21,12 @@ export class InternEntity{
   @Column()
   field: string;
 
-  @Column()
+  @Column({nullable:true, type:'numeric'})
   completed: number;
 
-  @Column({ type: 'bytea', nullable: true })
-  img: Buffer;
+  @Column({nullable:true, type:'text'})
+  image: string;
 
-  @Column({ type: 'bytea', nullable: true })
-  cv: Buffer;
+  @Column({nullable:true, type:'text'})
+  resume: string;
 }

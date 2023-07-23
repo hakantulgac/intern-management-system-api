@@ -22,4 +22,7 @@ export class DetailEntity{
 
   @Column()
   done: boolean;
+
+  @Column()
+  point: number;
 }

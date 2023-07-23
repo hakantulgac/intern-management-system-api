@@ -25,8 +25,8 @@ export class InternService{
         intern.department = createInternDto.department;
         intern.field = createInternDto.field
         intern.completed = createInternDto.completed
-        intern.img = createInternDto.img
-        intern.cv = createInternDto.cv
+        intern.image = createInternDto.image
+        intern.resume = createInternDto.resume
         return this.internRepository.save(intern)
     }
 
@@ -57,8 +57,8 @@ export class InternService{
         intern.department = updateInternDto.department;
         intern.field = updateInternDto.field
         intern.completed = updateInternDto.completed
-        intern.img = updateInternDto.img
-        intern.cv = updateInternDto.cv
+        intern.image = updateInternDto.image
+        intern.resume = updateInternDto.resume
         intern.id = id
         return this.internRepository.save(intern)
     }

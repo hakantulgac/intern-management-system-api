@@ -46,6 +46,7 @@ export class DetailService {
       detail.startDate = createdDetailDto.startDate;
       detail.endDate = createdDetailDto.endDate;
       detail.done = createdDetailDto.done;
+      detail.point=createdDetailDto.point
       return this.detailRepository.save(detail);
     }
   }
@@ -64,23 +65,29 @@ export class DetailService {
       detail.startDate = createdDetailDto.startDate;
       detail.endDate = createdDetailDto.endDate;
       detail.done = createdDetailDto.done;
+      detail.point=createdDetailDto.point
       return this.detailRepository.save(detail);
     }
   }
 
   async update(id: number, updateDetailDto: UpdateDetailDto) {
+    this.connection.query("update detail_entity set point = "+0+" where done = "+false)
     const detail: DetailEntity = new DetailEntity();
     detail.intern = updateDetailDto.intern;
     detail.plan = updateDetailDto.plan;
     detail.startDate = updateDetailDto.startDate;
     detail.endDate = updateDetailDto.endDate;
     detail.done = updateDetailDto.done;
+    detail.point =updateDetailDto.point
     detail.id = id;
-    return this.detailRepository.save(detail);
+    const result =this.detailRepository.save(detail);
+    //this.connection.query('update detail_entity set startDate = '+)
+    return result
   }
 
   remove(id: number) {
-    const deleted = this.connection.query('delete from detail_entity where "internId" = '+id+'delete from intern_entity where "id" = '+id)
+    this.connection.query('delete from detail_entity where "internId" = '+id)
+    const deleted = this.connection.query('delete from intern_entity where "id" = '+id)
     return deleted;
   }
 }

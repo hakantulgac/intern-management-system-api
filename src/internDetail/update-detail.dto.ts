@@ -8,4 +8,5 @@ export class UpdateDetailDto extends PartialType(CreateDetailDto){
     startDate:string
     endDate:string
     done:boolean
+    point:number
 }

@@ -6,4 +6,5 @@ export class CreateDetailDto{
     startDate:string
     endDate:string
     done:boolean
+    point:number
 }
