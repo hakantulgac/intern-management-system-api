@@ -4,8 +4,8 @@ import { DetailController } from "./detail.controller";
 import { DetailService } from "./detail.service";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DetailEntity } from "./detail.entity";
-import { InternEntity } from "src/intern/intern.entity";
-import { PlanEntity } from "src/plan/plan.entity";
+import { InternEntity } from "../intern/intern.entity";
+import { PlanEntity } from "../plan/plan.entity";
 
 @Module({
     imports: [TypeOrmModule.forFeature([DetailEntity,InternEntity,PlanEntity])],

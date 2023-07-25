@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common/decorators";
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Connection } from 'typeorm';
 import { UserEntity } from "./user.entity";
 import { createUserDto } from "./create-user.dto";
 import { UpdatedUserDto } from "./update-user.dto";
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>) {}
+    constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>, private connection: Connection) {}
 
     async auth(authInfos: createUserDto):Promise<object>{
         try {
@@ -33,7 +33,7 @@ export class UserService {
     }
 
     findAll():Promise<UserEntity[]>{
-        return this.userRepository.find()
+        return this.connection.query("select * from user_entity")
     }
 
     findOne(id:number){

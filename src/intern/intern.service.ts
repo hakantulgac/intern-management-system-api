@@ -1,20 +1,16 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { InternEntity } from "./intern.entity";
 import { Repository, Connection } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateInternDto } from "./create-intern.dto";
 import { UpdateInternDto } from "./update-intern.dto";
 
-interface typeValue{
-    value:number
-}
-
 @Injectable()
 export class InternService{
     constructor(
         @InjectRepository(InternEntity) private readonly internRepository: Repository<InternEntity>,
-        private connection:Connection
+        @Inject(Connection) private connection?:Connection
     ) {}
 
     create(createInternDto: CreateInternDto): Promise<InternEntity>{
@@ -30,13 +26,14 @@ export class InternService{
         return this.internRepository.save(intern)
     }
 
-    findAll():Promise<InternEntity[]>{
-        const result = this.connection.query('SELECT * FROM intern_entity')
+    async findAll():Promise<InternEntity[]>{
+        const result =  await this.connection.query('SELECT * FROM intern_entity')
         return result;
     }
 
-    findAllForDetail():Promise<InternEntity[]>{
-        const result = this.connection.query('SELECT id FROM intern_entity')
+    findAllForDetail():Promise<{id:number}[]>{
+        const result = this.connection.query('select id from intern_entity')
+        console.log(result)
         return result;
     }
 
@@ -44,9 +41,10 @@ export class InternService{
         return this.internRepository.findOneById(id)
     }
 
-    updateCompleted(id:number , completed:typeValue){
+    updateCompleted(id:number , completed:{value:number}):Promise<{value:number}>{
         const result:number = completed.value
-        this.connection.query("update intern_entity set completed = "+result+" where id = "+id)
+        return this.connection.query("update intern_entity set completed = "+result+" where id = "+id)
+         
     }
 
     update(id:number , updateInternDto: UpdateInternDto){

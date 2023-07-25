@@ -19,7 +19,7 @@ export class UserController {
 
     @Post()
     createUser(@Body() user:UserEntity){
-        this.userService.create(user);
+        return this.userService.create(user);
     }
 
     @Get(':id')
@@ -29,11 +29,11 @@ export class UserController {
 
     @Put(":id")
     update(@Param('id') id: string, @Body() updatedUser: UserEntity){
-        this.userService.update(+id,updatedUser);
+        return this.userService.update(+id,updatedUser);
     }
 
     @Delete(":id")
     remove(@Param('id') id: string){
-        this.userService.remove(+id);
+        return this.userService.remove(+id);
     }
 }

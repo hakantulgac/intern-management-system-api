@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { InternEntity } from 'src/intern/intern.entity';
-import { PlanEntity } from 'src/plan/plan.entity';
+import { InternEntity } from "../intern/intern.entity";
+import { PlanEntity } from "../plan/plan.entity";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()

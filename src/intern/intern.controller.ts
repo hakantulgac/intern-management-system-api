@@ -12,12 +12,12 @@ export class InternController{
     constructor(private readonly internService: InternService){}
 
     @Get()
-    getAllInterns():Promise<InternEntity[]>{
-        return this.internService.findAll();
+    async getAllInterns():Promise<InternEntity[]>{
+        return await this.internService.findAll();
     }
 
     @Get("plan")
-    getAllForDetail():Promise<InternEntity[]>{
+    getAllForDetail():Promise<{id:number}[]>{
         return this.internService.findAllForDetail();
     }
 

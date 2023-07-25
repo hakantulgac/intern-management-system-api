@@ -8,18 +8,18 @@ export class PlanController{
     constructor(private readonly planService: PlanService){}
     
     @Get()
-    getAllUsers():Promise<PlanEntity[]>{
+    getAll():Promise<PlanEntity[]>{
         return this.planService.findAll();
     }
 
     @Get("intern")
-    getAllForIntern():Promise<PlanEntity[]>{
+    getAllForIntern():Promise<{id:number}[]>{
         return this.planService.findAllForIntern();
     }
 
     @Post()
-    createUser(@Body() user:PlanEntity){
-        this.planService.create(user);
+    create(@Body() plan:PlanEntity):Promise<PlanEntity>{
+        return this.planService.create(plan);
     }
 
     @Get(':id')
