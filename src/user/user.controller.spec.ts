@@ -43,7 +43,7 @@ describe('UserController',()=>{
     })
 
     describe("createUser",()=>{
-        it("Should create an user",async()=>{
+        it("Should create a user",async()=>{
             const user: UserEntity = {id:1,name:"dsad",password:"dfsdf"}
 
             jest.spyOn(userService,"create").mockResolvedValue(user)
