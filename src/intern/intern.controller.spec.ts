@@ -16,8 +16,8 @@ describe("InternController", () => {
   describe("getAllInterns", () => {
     it("Should return an array of interns", async () => {
       const interns: InternEntity[] = [
-        { id: 1, name: "ad", school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" },
-        { id: 2, name: "adas", school: "add", field: "asda", department: "asas", grade: 3, completed: 0, image: "", resume: "" },
+        { id: 1, name: "ad",mail:"sad",confirmed:false, school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" },
+        { id: 2, name: "adas",mail:"sad",confirmed:false, school: "add", field: "asda", department: "asas", grade: 3, completed: 0, image: "", resume: "" },
       ];
 
       jest.spyOn(internService, "findAll").mockResolvedValue(interns);
@@ -39,7 +39,7 @@ describe("InternController", () => {
   })
   describe("getInternById",()=>{
     it("Should return an item of interns",async()=>{
-        const intern : InternEntity = { id: 1, name: "ad", school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" }
+        const intern : InternEntity = { id: 1, name: "ad",mail:"sad",confirmed:false, school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" }
 
         jest.spyOn(internService,'findOne').mockResolvedValue(intern)
 
@@ -51,7 +51,7 @@ describe("InternController", () => {
 
   describe("createIntern",()=>{
     it("Should create a new itern",async()=>{
-        const intern : InternEntity = { id: 1, name: "ad", school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" }
+        const intern : InternEntity = { id: 1, name: "ad",mail:"sad",confirmed:false, school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" }
 
         jest.spyOn(internService,"create").mockResolvedValue(intern)
 
@@ -73,7 +73,7 @@ describe("InternController", () => {
 
   describe("updateIntern",()=>{
     it("Should update an item of interns",async()=>{
-        const updated : InternEntity = { id: 1, name: "ad", school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" }
+        const updated : InternEntity = { id: 1, name: "ad",mail:"sad",confirmed:false, school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" }
 
         jest.spyOn(internService,"update").mockResolvedValue(updated)
 
@@ -84,7 +84,7 @@ describe("InternController", () => {
 
   describe("deleteIntern",()=>{
     it("Should delete an item of interns",async()=>{
-        const deleted : InternEntity = { id: 1, name: "ad", school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" }
+        const deleted : InternEntity = { id: 1, name: "ad",mail:"sad",confirmed:false, school: "ad", field: "asd", department: "as", grade: 4, completed: 0, image: "", resume: "" }
 
         jest.spyOn(internService,"remove").mockResolvedValue(deleted)
 

@@ -10,6 +10,12 @@ export class InternEntity{
   name: string;
 
   @Column()
+  mail:string
+
+  @Column()
+  confirmed:boolean
+
+  @Column()
   grade: number;
 
   @Column()

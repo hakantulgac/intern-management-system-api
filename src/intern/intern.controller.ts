@@ -11,6 +11,22 @@ interface typeValue{
 export class InternController{
     constructor(private readonly internService: InternService){}
 
+    @Post("sendmail")
+    async sendMail(@Body() info:{to:string,subject:string,object:string}): Promise<string> {
+        console.log("asdasd")
+        try {
+            await this.internService.sendMail(
+                info.to, // Alıcı e-posta adresi
+                info.subject, // E-posta konusu
+                info.object // E-posta içeriği
+            );
+        return 'E-posta gönderildi!';
+        } catch (error) {
+            console.error('E-posta gönderilemedi: ', error);
+            return 'E-posta gönderilemedi!';
+        }
+    }
+
     @Get()
     async getAllInterns():Promise<InternEntity[]>{
         return await this.internService.findAll();

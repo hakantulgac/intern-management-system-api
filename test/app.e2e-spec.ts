@@ -87,8 +87,8 @@ describe('AppController (e2e)', () => {
     
     beforeAll(()=>{
       interns = [
-        {id:1,name:"dsad",school:"dfsdf",department:"adasd",field:"sada",grade:2,completed:50,image:"asd",resume:"asda"},
-        {id:2,name:"dsad",school:"dfsdf",department:"adasd",field:"sada",grade:3,completed:30,image:"asd",resume:"asda"}
+        {id:1,name:"dsad",confirmed:false,mail:"assad",school:"dfsdf",department:"adasd",field:"sada",grade:2,completed:50,image:"asd",resume:"asda"},
+        {id:2,name:"dsad",confirmed:false,mail:"assad",school:"dfsdf",department:"adasd",field:"sada",grade:3,completed:30,image:"asd",resume:"asda"}
       ]
       internService = moduleApp.get<InternService>(InternService);
     });

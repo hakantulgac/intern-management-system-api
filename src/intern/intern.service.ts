@@ -2,6 +2,7 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { InternEntity } from "./intern.entity";
 import { Repository, Connection } from 'typeorm';
+import * as nodemailer from 'nodemailer';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateInternDto } from "./create-intern.dto";
 import { UpdateInternDto } from "./update-intern.dto";
@@ -10,12 +11,14 @@ import { UpdateInternDto } from "./update-intern.dto";
 export class InternService{
     constructor(
         @InjectRepository(InternEntity) private readonly internRepository: Repository<InternEntity>,
-        @Inject(Connection) private connection?:Connection
+        @Inject(Connection) private connection?:Connection,
     ) {}
 
     create(createInternDto: CreateInternDto): Promise<InternEntity>{
         const intern: InternEntity = new InternEntity()
         intern.name = createInternDto.name;
+        intern.mail = createInternDto.mail;
+        intern.confirmed = createInternDto.confirmed;
         intern.grade = createInternDto.grade
         intern.school = createInternDto.school;
         intern.department = createInternDto.department;
@@ -24,6 +27,25 @@ export class InternService{
         intern.image = createInternDto.image
         intern.resume = createInternDto.resume
         return this.internRepository.save(intern)
+    }
+
+    async sendMail(to: string, subject: string, body: string): Promise<void> {
+        const transporter = nodemailer.createTransport({
+            host: 'smtp-mail.outlook.com',
+            port: 587,
+            secure: false,
+            auth: {
+              user: process.env.email,
+              pass: process.env.emailPassword, 
+            },
+        });
+    
+        await transporter.sendMail({
+            from: 'odevicin_@outlook.com', 
+            to,
+            subject,
+            text: body,
+        });
     }
 
     async findAll():Promise<InternEntity[]>{
@@ -50,6 +72,8 @@ export class InternService{
     update(id:number , updateInternDto: UpdateInternDto){
         const intern: InternEntity = new InternEntity()
         intern.name = updateInternDto.name;
+        intern.mail = updateInternDto.mail;
+        intern.confirmed = updateInternDto.confirmed;
         intern.grade = updateInternDto.grade
         intern.school = updateInternDto.school;
         intern.department = updateInternDto.department;

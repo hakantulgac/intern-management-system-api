@@ -2,6 +2,8 @@
 
 export class CreateInternDto{
     name:string
+    mail:string
+    confirmed:boolean
     grade:number
     school:string
     department:string

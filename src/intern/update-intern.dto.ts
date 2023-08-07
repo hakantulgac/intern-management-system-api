@@ -4,6 +4,8 @@ import { CreateInternDto } from './create-intern.dto';
 
 export class UpdateInternDto extends PartialType(CreateInternDto){
     name:string
+    mail:string
+    confirmed:boolean
     grade:number
     school:string
     department:string
