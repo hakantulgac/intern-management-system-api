@@ -29,6 +29,8 @@ export class UserService {
         const user : UserEntity = new UserEntity();
         user.name = createUserDto.name;
         user.password = createUserDto.password;
+        user.role = createUserDto.role;
+        user.field = createUserDto.field
         return this.userRepository.save(user)
     }
 

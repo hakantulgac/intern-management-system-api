@@ -6,11 +6,13 @@ import { UserModule } from './user/user.module';
 import { InternModule } from './intern/intern.module';
 import { PlanModule } from './plan/plan.module';
 import { DetailModule } from './internDetail/detail.module';
+import { AttendanceModule } from './attendance/attendance.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user/user.entity';
 import { PlanEntity } from './plan/plan.entity';
 import { InternEntity } from './intern/intern.entity';
 import { DetailEntity } from './internDetail/detail.entity';
+import { AttendanceEntity } from './attendance/attendance.entity';
 
 @Module({
   imports: [
@@ -21,14 +23,15 @@ import { DetailEntity } from './internDetail/detail.entity';
       username: 'postgres',
       password: '12345',
       database: 'db_intern_management',
-      entities: [UserEntity, PlanEntity, InternEntity, DetailEntity],
+      entities: [UserEntity, PlanEntity, InternEntity, DetailEntity, AttendanceEntity],
       synchronize: true,
       logging: true
     }),
     UserModule, 
     InternModule, 
     PlanModule, 
-    DetailModule
+    DetailModule,
+    AttendanceModule
   ],
   controllers: [AppController],
   providers: [AppService],

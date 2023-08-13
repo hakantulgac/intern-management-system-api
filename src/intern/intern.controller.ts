@@ -32,6 +32,11 @@ export class InternController{
         return await this.internService.findAll();
     }
 
+    @Get('mail/:mail')
+    findInternIdByMail(@Param('mail') mail:string):Promise<{id:number}>{
+        return this.internService.findInternIdByMail(mail)
+    }
+
     @Get("plan")
     getAllForDetail():Promise<{id:number}[]>{
         return this.internService.findAllForDetail();

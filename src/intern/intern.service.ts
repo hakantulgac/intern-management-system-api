@@ -26,6 +26,8 @@ export class InternService{
         intern.completed = createInternDto.completed
         intern.image = createInternDto.image
         intern.resume = createInternDto.resume
+        intern.startdate = createInternDto.startdate
+        intern.enddate = createInternDto.enddate
         return this.internRepository.save(intern)
     }
 
@@ -51,6 +53,14 @@ export class InternService{
     async findAll():Promise<InternEntity[]>{
         const result =  await this.connection.query('SELECT * FROM intern_entity')
         return result;
+    }
+
+    findInternIdByMail(mail:string):Promise<{id:number}>{
+        const result = this.connection.query(
+            `select id from intern_entity
+             where mail = '${mail}'`
+        )
+        return result
     }
 
     findAllForDetail():Promise<{id:number}[]>{
@@ -81,6 +91,8 @@ export class InternService{
         intern.completed = updateInternDto.completed
         intern.image = updateInternDto.image
         intern.resume = updateInternDto.resume
+        intern.startdate = updateInternDto.startdate
+        intern.enddate = updateInternDto.enddate
         intern.id = id
         return this.internRepository.save(intern)
     }

@@ -11,4 +11,6 @@ export class CreateInternDto{
     completed:number
     image: string;
     resume: string;
+    startdate:string;
+    enddate:string
 }  

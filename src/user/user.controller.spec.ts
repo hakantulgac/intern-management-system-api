@@ -23,7 +23,7 @@ describe('UserController',()=>{
 
             jest.spyOn(userService,"auth").mockResolvedValue(user)
 
-            const result = await userController.auth({id:3,name:"sada",password:""})
+            const result = await userController.auth({id:3,name:"sada",password:"",role:"",field:""})
             expect(result).toEqual(user)
         })
     })
@@ -31,8 +31,8 @@ describe('UserController',()=>{
     describe("getAllUsers",()=>{
         it("Should return an array of users",async()=>{
             const users : UserEntity[] = [
-                {id:1,name:"dsad",password:"dfsdf"},
-                {id:2,name:"asda",password:"adasd"}
+                {id:1,name:"dsad",password:"dfsdf",role:"",field:""},
+                {id:2,name:"asda",password:"adasd",role:"",field:""}
             ]
             
             jest.spyOn(userService,"findAll").mockResolvedValue(users)
@@ -44,7 +44,7 @@ describe('UserController',()=>{
 
     describe("createUser",()=>{
         it("Should create a user",async()=>{
-            const user: UserEntity = {id:1,name:"dsad",password:"dfsdf"}
+            const user: UserEntity = {id:1,name:"dsad",password:"dfsdf",role:"",field:""}
 
             jest.spyOn(userService,"create").mockResolvedValue(user)
 
@@ -55,7 +55,7 @@ describe('UserController',()=>{
 
     describe("findOne",()=>{
         it("Should return an item of users",async()=>{
-            const user: UserEntity = {id:1,name:"dsad",password:"dfsdf"}
+            const user: UserEntity = {id:1,name:"dsad",password:"dfsdf",role:"",field:""}
 
             jest.spyOn(userService,"findOne").mockResolvedValue(user)
 
@@ -66,7 +66,7 @@ describe('UserController',()=>{
 
     describe("update",()=>{
         it("Should update an user",async()=>{
-            const user : UserEntity = {id:1,name:"saada",password:"sadasd"}
+            const user : UserEntity = {id:1,name:"saada",password:"sadasd",role:"",field:""}
 
             jest.spyOn(userService,"update").mockResolvedValue(user)
 
@@ -77,7 +77,7 @@ describe('UserController',()=>{
 
     describe("remove",()=>{
         it("Should delete an user",async()=>{
-            const user : UserEntity = {id:1,name:"saada",password:"sadasd"}
+            const user : UserEntity = {id:1,name:"saada",password:"sadasd",role:"",field:""}
 
             jest.spyOn(userService,"remove").mockResolvedValue(user)
 

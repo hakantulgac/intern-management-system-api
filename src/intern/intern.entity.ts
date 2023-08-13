@@ -12,7 +12,7 @@ export class InternEntity{
   @Column()
   mail:string
 
-  @Column()
+  @Column({nullable:true})
   confirmed:boolean
 
   @Column()
@@ -35,4 +35,10 @@ export class InternEntity{
 
   @Column({nullable:true, type:'text'})
   resume: string;
+
+  @Column()
+  startdate : string;
+
+  @Column()
+  enddate: string;
 }

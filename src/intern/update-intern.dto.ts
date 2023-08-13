@@ -13,4 +13,6 @@ export class UpdateInternDto extends PartialType(CreateInternDto){
     completed:number
     image: string;
     resume: string;
+    startdate: string
+    enddate:string
 }
