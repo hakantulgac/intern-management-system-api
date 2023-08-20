@@ -23,6 +23,15 @@ export class AttendanceService {
         return query
     }
 
+    createNote(note:string,internid:number,date:string){
+        this.connection.query(`
+            update attendance_entity 
+            set note = '${note}'
+            where internid = ${internid}
+            and date =  '${date}'
+        `)
+    }
+
     findAll():Promise<AttendanceEntity[]>{
         return this.connection.query("select * from attendance_entity")
     }

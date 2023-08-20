@@ -15,6 +15,7 @@ export class PlanService{
         plan.title = createPlanDto.title;
         plan.description = createPlanDto.description;
         plan.days = createPlanDto.days;
+        plan.field = createPlanDto.field;
         return this.planRepository.save(plan)
     }
 
@@ -23,8 +24,8 @@ export class PlanService{
         return result
     }
 
-    findAllForIntern():Promise<{id:number}[]>{
-        const result = this.connection.query('select id from plan_entity')
+    findAllForIntern():Promise<PlanEntity[]>{
+        const result = this.connection.query('select * from plan_entity')
         console.log(result)
         return result;
     }
@@ -38,6 +39,7 @@ export class PlanService{
         plan.title = updatePlanDto.title;
         plan.description = updatePlanDto.description;
         plan.days = updatePlanDto.days;
+        plan.field = updatePlanDto.field;
         plan.id = id
         return this.planRepository.save(plan)
     }

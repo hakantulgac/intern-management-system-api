@@ -6,4 +6,5 @@ export class UpdatedAttendanceDto extends PartialType(createAttendanceDto){
     internid: number
     date:string
     value: boolean;
+    note:string
 } 

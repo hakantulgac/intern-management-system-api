@@ -6,4 +6,5 @@ export class UpdatePlanDto extends PartialType(CreatePlanDto){
     title:string
     description:string
     days:number
+    field: string;
 }

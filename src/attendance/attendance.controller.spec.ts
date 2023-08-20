@@ -19,7 +19,7 @@ describe('UserController',()=>{
 
     describe("createAttendance",()=>{
         it("Should create a attendance",async()=>{
-            const attendance: AttendanceEntity = {id:1,internid:1,date:"17",value:true}
+            const attendance: AttendanceEntity = {id:1,internid:1,date:"17",value:true,note:""}
 
             jest.spyOn(attendanceService,"create").mockResolvedValue(attendance)
 
@@ -30,7 +30,7 @@ describe('UserController',()=>{
 
     describe("findOne",()=>{
         it("Should return an item of attendances",async()=>{
-            const attendance: AttendanceEntity = {id:1,internid:1,date:"17",value:true}
+            const attendance: AttendanceEntity = {id:1,internid:1,date:"17",value:true,note:""}
 
             jest.spyOn(attendanceService,"findOne").mockResolvedValue(attendance)
 
@@ -41,7 +41,7 @@ describe('UserController',()=>{
 
     describe("update",()=>{
         it("Should update an user",async()=>{
-            const attendance : AttendanceEntity = {id:1,internid:1,date:"17",value:true}
+            const attendance : AttendanceEntity = {id:1,internid:1,date:"17",value:true,note:""}
 
             jest.spyOn(attendanceService,"update").mockResolvedValue(attendance)
 
@@ -52,7 +52,7 @@ describe('UserController',()=>{
 
     describe("remove",()=>{
         it("Should delete an user",async()=>{
-            const attendance : AttendanceEntity = {id:1,internid:1,date:"17",value:true}
+            const attendance : AttendanceEntity = {id:1,internid:1,date:"17",value:true,note:""}
 
             jest.spyOn(attendanceService,"remove").mockResolvedValue(attendance)
 

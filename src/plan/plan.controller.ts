@@ -13,7 +13,7 @@ export class PlanController{
     }
 
     @Get("intern")
-    getAllForIntern():Promise<{id:number}[]>{
+    getAllForIntern():Promise<PlanEntity[]>{
         return this.planService.findAllForIntern();
     }
 

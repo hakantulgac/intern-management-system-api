@@ -27,6 +27,11 @@ export class InternController{
         }
     }
 
+    @Put('active/:id')
+    putActive(@Param('id') id:string){
+        this.internService.putActive(+id)
+    }
+
     @Get()
     async getAllInterns():Promise<InternEntity[]>{
         return await this.internService.findAll();
@@ -38,7 +43,7 @@ export class InternController{
     }
 
     @Get("plan")
-    getAllForDetail():Promise<{id:number}[]>{
+    getAllForDetail():Promise<InternEntity[]>{
         return this.internService.findAllForDetail();
     }
 

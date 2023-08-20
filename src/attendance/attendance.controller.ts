@@ -3,6 +3,12 @@ import{Controller, Get ,Post, Put, Delete, Param, Body} from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { AttendanceEntity } from './attendance.entity';
 
+interface typeNote{
+    internid:string
+    date:string
+    note:string
+}
+
 @Controller('attendances')
 export class AttendanceController {
     constructor(private readonly attendanceService: AttendanceService){}
@@ -15,6 +21,11 @@ export class AttendanceController {
     @Get()
     findAll(): Promise<AttendanceEntity[]>{
         return this.attendanceService.findAll()
+    }
+
+    @Put('note')
+    createNote(@Body() newNote:typeNote){
+        this.attendanceService.createNote(newNote.note,+newNote.internid,newNote.date)
     }
 
     @Get(':id')

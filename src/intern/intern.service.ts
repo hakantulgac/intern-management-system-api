@@ -31,6 +31,14 @@ export class InternService{
         return this.internRepository.save(intern)
     }
 
+    putActive(id:number){
+        this.connection.query(`
+            update intern_entity 
+            set isactive = ${true}
+            where id = ${id}
+        `)
+    }
+
     async sendMail(to: string, subject: string, body: string): Promise<void> {
         const transporter = nodemailer.createTransport({
             host: 'smtp-mail.outlook.com',
@@ -57,14 +65,14 @@ export class InternService{
 
     findInternIdByMail(mail:string):Promise<{id:number}>{
         const result = this.connection.query(
-            `select id from intern_entity
+            `select id,isactive from intern_entity
              where mail = '${mail}'`
         )
         return result
     }
 
-    findAllForDetail():Promise<{id:number}[]>{
-        const result = this.connection.query('select id from intern_entity')
+    findAllForDetail():Promise<InternEntity[]>{
+        const result = this.connection.query('select * from intern_entity')
         console.log(result)
         return result;
     }

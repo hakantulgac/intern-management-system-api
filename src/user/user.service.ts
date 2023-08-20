@@ -8,21 +8,12 @@ import { UpdatedUserDto } from "./update-user.dto";
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>, private connection: Connection) {}
+    constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+        private connection: Connection
+    ) {}
 
-    async auth(authInfos: createUserDto):Promise<object>{
-        try {
-            const userInfos = await this.userRepository.findOne({where:{name:String(authInfos.name)}})
-            const check = userInfos.name==authInfos.name && userInfos.password == authInfos.password
-
-            if(check){
-                return Promise.resolve({id:userInfos.id})
-            }else{
-                return Promise.reject({message:"error"})
-            }
-        }catch{
-            return Promise.reject({message:"error"})
-        }  
+    async login(authInfos: createUserDto):Promise<UserEntity>{
+        return this.userRepository.findOne({where:{name:String(authInfos.name)}})
     }
 
     create(createUserDto: createUserDto): Promise<UserEntity>{
@@ -34,11 +25,15 @@ export class UserService {
         return this.userRepository.save(user)
     }
 
+    findId(mail:string):Promise<{id:string}>{
+        return this.connection.query(`select id from user_entity where name = '${mail}'`)
+    }
+
     findAll():Promise<UserEntity[]>{
         return this.connection.query("select * from user_entity")
     }
 
-    findOne(id:number){
+    findOne(id:number):Promise<UserEntity>{
         return this.userRepository.findOneById(id)
     }
     
@@ -50,9 +45,8 @@ export class UserService {
         return this.userRepository.save(user)
     }
 
-    remove(id: number){
-        const deleted = this.userRepository.findOneById(id)
-        this.userRepository.delete(id)
+    remove(name: string){
+        const deleted = this.connection.query(`delete from user_entity where name = '${name}'`)
         return deleted
     }
 

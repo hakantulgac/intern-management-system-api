@@ -41,4 +41,7 @@ export class InternEntity{
 
   @Column()
   enddate: string;
+
+  @Column({nullable:true})
+  isactive: boolean;
 }

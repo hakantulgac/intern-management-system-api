@@ -15,4 +15,7 @@ export class AttendanceEntity{
 
   @Column()
   value: boolean
+
+  @Column({type:'text',nullable:true})
+  note:string
 }

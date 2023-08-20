@@ -2,19 +2,22 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class PlanEntity{
+export class DocsEntity{
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  title: string;
+  internid: number;
 
   @Column()
-  description: string;
+  accForm: string;
 
   @Column()
-  days:number
+  criRecord: string
 
   @Column()
-  field:string
+  educDoc: string
+
+  @Column()
+  idRegister: string 
 }
