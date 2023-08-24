@@ -5,6 +5,7 @@ import { DetailEntity } from './detail.entity';
 import { DetailService } from './detail.service';
 import { Repository, Connection } from 'typeorm';
 import { InternEntity } from '../intern/intern.entity';
+import  { Request } from 'express'
 
 describe('DetailController', () => {
   let detailController: DetailController;
@@ -12,7 +13,7 @@ describe('DetailController', () => {
   let detailRepository: Repository<DetailEntity>;
   let planRepository: Repository<PlanEntity>;
   let internRepository: Repository<InternEntity>;
-
+  let req : Request
   let detailConnection: Connection; 
 
   beforeEach(() => {
@@ -23,6 +24,10 @@ describe('DetailController', () => {
       detailConnection,
     );
     detailController = new DetailController(detailService);
+    req = {
+      headers: {},
+      cookies: { jwt: 'your_jwt_token_here' }, // Provide a valid JWT token here
+    } as Request;
   });
 
   describe('getAllDetails', () => {
@@ -50,7 +55,7 @@ describe('DetailController', () => {
 
       jest.spyOn(detailService, 'findAll').mockResolvedValue(details);
 
-      const result = await detailController.getAllDetails();
+      const result = await detailController.getAllDetails(req);
       expect(result).toEqual(details);
     });
   });
@@ -80,7 +85,7 @@ describe('DetailController', () => {
 
       jest.spyOn(detailService, 'findOneIntern').mockResolvedValue(details);
 
-      const result = await detailController.getDetailById('2');
+      const result = await detailController.getDetailById(req,'2');
       expect(result).toEqual(details);
     });
   });
@@ -99,7 +104,7 @@ describe('DetailController', () => {
 
       jest.spyOn(detailService, 'createInternDetail').mockResolvedValue(detail);
       
-      const resultIntern = await detailController.createInternDetail(detail);
+      const resultIntern = await detailController.createInternDetail(req,detail);
 
       expect(resultIntern).toEqual(detail);
     });
@@ -119,7 +124,7 @@ describe('DetailController', () => {
 
       jest.spyOn(detailService, 'createPlanDetail').mockResolvedValue(detail);
 
-      const resultPlan = await detailController.createPlanDetail(detail);
+      const resultPlan = await detailController.createPlanDetail(req,detail);
 
       expect(resultPlan).toEqual(detail);
     });
@@ -139,7 +144,7 @@ describe('DetailController', () => {
 
         jest.spyOn(detailService,"update").mockResolvedValue(detail)
 
-        const updated = await detailController.updateDetail("1",detail)
+        const updated = await detailController.updateDetail(req,"1",detail)
         expect(updated).toEqual(detail)
     })
   });
@@ -158,7 +163,7 @@ describe('DetailController', () => {
 
         jest.spyOn(detailService, "remove").mockResolvedValue(detail)
 
-        const deleted = await detailController.deleteDetail("2")
+        const deleted = await detailController.deleteDetail(req,"2")
         expect(deleted).toEqual(detail)
     })
   })

@@ -56,6 +56,13 @@ export class AttendanceService {
         return this.attendanceRepository.save(attendance)
     }
 
+    removeAll(id: number){
+        const deleted = this.connection.query(`
+            Delete from attendance_entity where internid = ${id}
+        `)
+        return deleted
+    }
+
     remove(id: number, date:string){
         const deleted = this.connection.query(`
             Delete from attendance_entity where internid = ${id}

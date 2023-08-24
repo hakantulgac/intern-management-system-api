@@ -6,7 +6,7 @@ export class DocsEntity{
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({unique:true})
   internid: number;
 
   @Column()

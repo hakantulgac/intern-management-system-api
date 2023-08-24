@@ -23,7 +23,7 @@ export class UserController {
                 const jwt = await this.jwtService.signAsync({id:result.id})
                 response.cookie("jwt",jwt,{httpOnly:true})
                 const {password,...rest} = result
-                return rest
+                return {...rest,jwt:jwt}
             }else{
                 return Promise.reject({message:"error"})
             }
@@ -32,16 +32,70 @@ export class UserController {
         }
     }
 
+    @Post("field")
+    createField(@Body() field:{name:string},@Req() req:Request){
+        try {
+            console.log(field)
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.userService.createField(field.name)
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
+    }
+
+    @Delete("field/:id")
+    deleteField(@Param("id") id:string,@Req() req:Request){
+        try {
+            console.log(id)
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+        
+            if(cookie||local){
+                return this.userService.deleteField(id)
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
+    }
+
+    @Get("field")
+    getAllFields(@Req() req:Request){
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.userService.findAllFields()
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
+    }
+
     @Get("auth")
     async auth(@Req() req:Request){
         try {
             const cookie = req.cookies['jwt']
-
-            const data = await this.jwtService.verifyAsync(cookie)
+            const local = req.headers["jwt"]
+            let data
+            if(cookie){
+                data = await this.jwtService.verifyAsync(cookie)
+            }else{
+                data = await this.jwtService.verifyAsync(String(local))
+            }
             const user = await this.userService.findOne(data['id'])
 
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const {password,...rest} = user
-            if(user){
+            if(user||local){
                 return rest
             }else{
                 throw new UnauthorizedException();
@@ -59,34 +113,99 @@ export class UserController {
 
 
     @Get("/mail/:mail")
-    getId(@Param('mail') mail:string):Promise<{id:string}>{
-        return this.userService.findId(mail);
+    getId(@Req() req:Request,@Param('mail') mail:string):Promise<{id:string}>{
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.userService.findId(mail);
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
     }
 
     @Get()
-    getAllUsers():Promise<UserEntity[]>{
-        return this.userService.findAll();
+    getAllUsers(@Req() req:Request):Promise<UserEntity[]>{
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.userService.findAll();
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        } 
     }
 
     @Post()
-    createUser(@Body() user:UserEntity){
-        const newUser = this.userService.create(user);
-        const {password,...rest} = user
-        return rest
+    async createUser(@Req() req:Request,@Body() user:UserEntity){
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                this.userService.create(user);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const {password,...rest} = user
+                return rest
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
     }
 
     @Get(':id')
-    findOne(@Param('id') id:string): Promise<UserEntity>{
-        return this.userService.findOne(+id)
+    findOne(@Req() req:Request,@Param('id') id:string): Promise<UserEntity>{
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.userService.findOne(+id)
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
+        
     }
 
     @Put(":id")
-    update(@Param('id') id: string, @Body() updatedUser: UserEntity){
-        return this.userService.update(+id,updatedUser);
+    async update(@Req() req:Request,@Param('id') id: string, @Body() updatedUser: UserEntity){
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.userService.update(+id,updatedUser);
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
+        
     }
 
     @Delete(":name")
-    remove(@Param('name') name: string){
-        return this.userService.remove(name);
+    async remove(@Req() req:Request,@Param('name') name: string){
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+        
+            if(cookie||local){
+                return this.userService.remove(name);
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
+        
     }
 }

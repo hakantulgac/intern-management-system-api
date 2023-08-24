@@ -40,7 +40,8 @@ export class InternService{
     }
 
     async sendMail(to: string, subject: string, body: string): Promise<void> {
-        const transporter = nodemailer.createTransport({
+
+        const transporter = await nodemailer.createTransport({
             host: 'smtp-mail.outlook.com',
             port: 587,
             secure: false,
@@ -54,7 +55,20 @@ export class InternService{
             from: 'odevicin_@outlook.com', 
             to,
             subject,
-            text: body,
+            text: 
+`
+  ${body}  
+  
+  Lütfen ekteki başvuru formunu doldurup, adli sicil kaydınız(e-devlet), 
+öğrenim belgeniz(e-devlet) ve nüfus kayıt örneğiniz(e-devlet) ile birlikte,
+sisteme ilk girişinizde ilgili alana yükleyiniz. 
+            `,
+            attachments: [
+                { 
+                    filename: 'Staj Kabul Formu.pdf',
+                    path: 'src/intern/Staj Kabul Formu.pdf'
+                }
+            ]
         });
     }
 

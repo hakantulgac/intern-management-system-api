@@ -17,8 +17,11 @@ export class DocsService {
         const educDoc = createDocsDto.educDoc
         const idRegister = createDocsDto.idRegister 
         const query = this.connection.query(`
-            INSERT INTO docs_entity ("internid", "accForm", "criRecord","educDoc","idRegister")
+            INSERT INTO docs_entity ("internid", "accForm", "criRecord", "educDoc", "idRegister")
             VALUES (${internId}, '${accForm}', '${criRecord}', '${educDoc}', '${idRegister}')
+            ON CONFLICT ("internid") DO UPDATE
+            SET "accForm" = EXCLUDED."accForm", "criRecord" = 
+            EXCLUDED."criRecord", "educDoc" = EXCLUDED."educDoc", "idRegister" = EXCLUDED."idRegister";
         `)
         return query
     }

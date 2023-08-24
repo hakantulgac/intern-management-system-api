@@ -4,17 +4,21 @@ import { Connection, Repository } from "typeorm"
 import { DocsController } from "./docs.controller"
 import { DocsService } from "./docs.service"
 import { DocsEntity } from "./docs.entity"
-
+import {Request} from "express"
 
 describe('UserController',()=>{
     let docsService : DocsService
     let docsController : DocsController
     let docsConnection : Connection
     let docsRepository : Repository<DocsEntity>
-
+    let req: Request
     beforeEach(()=>{
         docsService = new DocsService(docsRepository,docsConnection)
         docsController = new DocsController(docsService)
+        req = {
+            headers: {},
+            cookies: { jwt: 'your_jwt_token_here' }, // Provide a valid JWT token here
+        } as Request;
     })
 
     describe("createDocs",()=>{
@@ -23,7 +27,7 @@ describe('UserController',()=>{
 
             jest.spyOn(docsService,"create").mockResolvedValue(docs)
 
-            const result = await docsController.createUser(docs)
+            const result = await docsController.createUser(req,docs)
             expect(result).toEqual(docs)
         })
     })
@@ -34,7 +38,7 @@ describe('UserController',()=>{
 
             jest.spyOn(docsService,"findOne").mockResolvedValue(docs)
 
-            const result = await docsController.findOne("2")
+            const result = await docsController.findOne(req,"2")
             expect(result).toEqual(docs)
         })
     })
@@ -45,7 +49,7 @@ describe('UserController',()=>{
 
             jest.spyOn(docsService,"update").mockResolvedValue(docs)
 
-            const result = await docsController.update("1",docs)
+            const result = await docsController.update(req,"1",docs)
             expect(result).toEqual(docs)
         })
     })
@@ -56,7 +60,7 @@ describe('UserController',()=>{
 
             jest.spyOn(docsService,"remove").mockResolvedValue(docs)
 
-            const result = await docsController.remove("1")
+            const result = await docsController.remove(req,"1")
             expect(result).toEqual(docs)
         })
     })

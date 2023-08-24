@@ -4,27 +4,40 @@ import { Connection, Repository } from "typeorm"
 import { UserController } from "./user.controller"
 import { UserService } from "./user.service"
 import { UserEntity } from "./user.entity"
-
+import { Request,Response } from "express"
+import { JwtService } from "@nestjs/jwt"
 
 describe('UserController',()=>{
     let userService : UserService
     let userController : UserController
     let userConnection : Connection
     let userRepository : Repository<UserEntity>
-
+    let jwtService : JwtService
+    let req : Request
+    let res : Response
     beforeEach(()=>{
         userService = new UserService(userRepository,userConnection)
-        userController = new UserController(userService)
+        userController = new UserController(userService,jwtService)
+        req = {
+          headers: {},
+          cookies: { jwt: 'your_jwt_token_here' },
+        } as Request;
     })
 
     describe("auth",()=>{
         it("Should be login",async()=>{
-            const user :{id:number}|{message:string} = {id:3} || {message:"error"}  
+            const user : UserEntity = {id:0,name:"sada",password:"",role:"",field:""} 
 
-            jest.spyOn(userService,"auth").mockResolvedValue(user)
+            jest.spyOn(userService,"login").mockResolvedValue(user)
 
-            const result = await userController.auth({id:3,name:"sada",password:"",role:"",field:""})
-            expect(result).toEqual(user)
+            const result = await userController.login({id:0,name:"sada",password:"",role:"",field:""},res)
+
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const {password,...rest} = user
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const {jwt,...restResult} = result
+
+            expect(restResult).toEqual(rest)
         })
     })
 
@@ -37,7 +50,7 @@ describe('UserController',()=>{
             
             jest.spyOn(userService,"findAll").mockResolvedValue(users)
 
-            const result = await userController.getAllUsers()
+            const result = await userController.getAllUsers(req)
             expect(result).toEqual(users)
         })
     })
@@ -48,8 +61,12 @@ describe('UserController',()=>{
 
             jest.spyOn(userService,"create").mockResolvedValue(user)
 
-            const result = await userController.createUser(user)
-            expect(result).toEqual(user)
+            const result = await userController.createUser(req,user)
+            
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const {password,...rest} = user
+            
+            expect(result).toEqual(rest)
         })
     })
 
@@ -59,7 +76,8 @@ describe('UserController',()=>{
 
             jest.spyOn(userService,"findOne").mockResolvedValue(user)
 
-            const result = await userController.findOne("2")
+            const result = await userController.findOne(req,"2")
+            
             expect(result).toEqual(user)
         })
     })
@@ -70,7 +88,7 @@ describe('UserController',()=>{
 
             jest.spyOn(userService,"update").mockResolvedValue(user)
 
-            const result = await userController.update("1",user)
+            const result = await userController.update(req,"1",user)
             expect(result).toEqual(user)
         })
     })
@@ -81,7 +99,7 @@ describe('UserController',()=>{
 
             jest.spyOn(userService,"remove").mockResolvedValue(user)
 
-            const result = await userController.remove("1")
+            const result = await userController.remove(req,"1")
             expect(result).toEqual(user)
         })
     })

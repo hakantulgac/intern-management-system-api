@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import{Controller, Get ,Post, Put, Delete, Param, Body} from '@nestjs/common';
+import{Controller, Get ,Post, Put, Delete, Param, Body, Req, UnauthorizedException} from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
+import {Request} from 'express'
 import { AttendanceEntity } from './attendance.entity';
 
 interface typeNote{
@@ -14,37 +15,122 @@ export class AttendanceController {
     constructor(private readonly attendanceService: AttendanceService){}
 
     @Post()
-    createUser(@Body() attendance:AttendanceEntity){
-        return this.attendanceService.create(attendance);
+    async createAttendance(@Req() req:Request,@Body() attendance:AttendanceEntity){
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.attendanceService.create(attendance);
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
     }
 
     @Get()
-    findAll(): Promise<AttendanceEntity[]>{
-        return this.attendanceService.findAll()
+    findAll(@Req() req:Request): Promise<AttendanceEntity[]>{
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.attendanceService.findAll()
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
     }
 
     @Put('note')
-    createNote(@Body() newNote:typeNote){
-        this.attendanceService.createNote(newNote.note,+newNote.internid,newNote.date)
+    async createNote(@Req() req:Request,@Body() newNote:typeNote){
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                this.attendanceService.createNote(newNote.note,+newNote.internid,newNote.date)
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
     }
 
     @Get(':id')
-    findOne(@Param('id') id:string): Promise<AttendanceEntity>{
-        return this.attendanceService.findOne(+id)
+    findOne(@Req() req:Request,@Param('id') id:string): Promise<AttendanceEntity>{
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.attendanceService.findOne(+id)
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
     }
 
     @Get('intern/:id')
-    findOneByIntern(@Param('id') id:string):Promise<AttendanceEntity[]>{
-        return this.attendanceService.finOneByIntern(+id)
+    findOneByIntern(@Req() req:Request,@Param('id') id:string):Promise<AttendanceEntity[]>{
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.attendanceService.finOneByIntern(+id)
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
     }
 
     @Put(":id")
-    update(@Param('id') id: string, @Body() updatedAttendance: AttendanceEntity){
-        return this.attendanceService.update(+id,updatedAttendance);
+    async update(@Req() req:Request,@Param('id') id: string, @Body() updatedAttendance: AttendanceEntity){
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.attendanceService.update(+id,updatedAttendance);
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
+    }
+
+    @Delete(":id")
+    async removeAll(@Req() req:Request,@Param('id') id: string){
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.attendanceService.removeAll(+id);
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
     }
 
     @Delete(":id/:date")
-    remove(@Param('id') id: string,@Param('date') date:string){
-        return this.attendanceService.remove(+id,date);
+    async remove(@Req() req:Request,@Param('id') id: string,@Param('date') date:string){
+        try {
+            const cookie = req.cookies['jwt']
+            const local = req.headers["jwt"]
+            if(cookie||local){
+                return this.attendanceService.remove(+id,date);
+            }else{
+                throw new UnauthorizedException();
+            }
+        } catch (e) {
+            throw new UnauthorizedException();
+        }
     }
 }

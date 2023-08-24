@@ -9,7 +9,7 @@ export class InternEntity{
   @Column()
   name: string;
 
-  @Column()
+  @Column({unique:true})
   mail:string
 
   @Column({nullable:true})

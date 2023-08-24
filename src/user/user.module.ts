@@ -11,7 +11,7 @@ import { JwtModule} from "@nestjs/jwt"
         TypeOrmModule.forFeature([UserEntity]),
         JwtModule.register({
             secret : "secret",
-            signOptions : {expiresIn : '1h'}
+            signOptions : {expiresIn : '1d'}
         })
     ],
     controllers : [UserController],

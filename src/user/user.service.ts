@@ -25,6 +25,27 @@ export class UserService {
         return this.userRepository.save(user)
     }
 
+    createField(name:string){
+        const newField = this.connection.query(
+            `insert into fields (name) values ('${name}')`
+        )
+        return newField
+    }
+
+    deleteField(id:string){
+        const deletedField = this.connection.query(
+            `delete from fields where id = ${id}`
+        )
+        return deletedField
+    }
+
+    findAllFields():Promise<{id:string,name:string}>{
+        const fields = this.connection.query(
+            `select * from fields`
+        )
+        return fields
+    }
+
     findId(mail:string):Promise<{id:string}>{
         return this.connection.query(`select id from user_entity where name = '${mail}'`)
     }
